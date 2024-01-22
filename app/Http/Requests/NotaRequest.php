@@ -31,4 +31,16 @@ class NotaRequest extends FormRequest
         'id_pagamento'=>'required',
         ];
     }
+    public function messages(): array
+{
+    return [
+        'nome_cliente.required' => 'O campo Nome do Cliente é obrigatório.',
+        'tipo_servico.required' => 'O campo Tipo de Serviço é obrigatório.',
+        'data_nota.required' => 'O campo Data é obrigatório.',
+        'preco_nota.required' => 'O campo Preço é obrigatório.',
+        'id_status.required' => 'O campo Status de Pagamento é obrigatório.',
+        'id_pagamento.required' => 'O campo Forma de Pagamento é obrigatório.',
+    ];
+}
+
 }
