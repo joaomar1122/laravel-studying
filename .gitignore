@@ -17,3 +17,34 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+# Arquivos de configuração do sistema
+.env
+
+# Diretório de dependências
+/vendor
+
+# Diretório de arquivos de log
+/storage/logs
+
+# Arquivos gerados pelo Composer
+/composer.phar
+
+# Arquivos de cache do Laravel
+/bootstrap/cache
+
+# Diretório de arquivos de sessão
+/storage/framework/sessions
+
+# Diretório de arquivos compilados
+/storage/framework/views
+
+# Arquivos de configuração personalizada
+/config/custom
+
+# Ambiente de desenvolvimento
+/.idea
+
+# Arquivos de configuração do sistema operacional
+.DS_Store
+Thumbs.db
+
