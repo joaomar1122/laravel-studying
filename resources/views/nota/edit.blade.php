@@ -27,7 +27,7 @@
 
                      <div class="form-group">
                             <label for="preco_nota">Preço:</label>
-                            <input type="number" class="form-control" name="preco_nota" value="{{$nota -> preco_nota}}">
+                            <input type="price" class="form-control" name="preco_nota" value="{{$nota -> preco_nota}}">
                      </div>
                      <div class="form-group">
                             <label for="id_status">Status Pagamento:</label>

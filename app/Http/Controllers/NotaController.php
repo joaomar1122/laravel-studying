@@ -15,9 +15,6 @@ class NotaController extends Controller
     private $objPagamento;
 
     public function __construct(){
-        $this->objStatus = New StatusModel();
-        $this->objPagamento = New FormaPgtModel();
-        $this->objNota = new NotaModel();
     }
 
     public function index()
@@ -26,23 +23,23 @@ class NotaController extends Controller
         //dd($this->objPagamento::all()); //FUNCIONANDO
         //dd($this->objNota::all()); //FUNCIONANDO
 
-        //dd($this->objNota->find(1)->relStatus()); //FUNCIONANDO
-        //dd($this->objNota->find(2)->relPagamento()); //FUNCIONANDO
+        //dd(NotaModel::find(1)->relStatus()); //FUNCIONANDO
+        //dd(NotaModel::find(2)->relPagamento()); //FUNCIONANDO
 
-        $nota=$this->objNota->paginate(15);
+        $nota=NotaModel::paginate(15);
         return view('nota.index', ['nota' => $nota]);
     }
 
     public function create()
     {
-        $statusnota=$this->objStatus->all();
-        $formapgt=$this->objPagamento->all();
+        $statusnota=StatusModel::all();
+        $formapgt=FormaPgtModel::all();
         return view('nota.create',compact('statusnota','formapgt'));
     }
 
     public function store(NotaRequest $request)
     {
-        $cadastro = $this->objNota ->create([
+        $cadastro = NotaModel::create([
             'nome_cliente'=>$request->nome_cliente,
             'tipo_servico'=>$request->tipo_servico,
             'data_nota'=>$request->data_nota,
@@ -57,32 +54,41 @@ class NotaController extends Controller
 
     public function edit($id_notas)
 {
-    $nota = $this->objNota->find($id_notas);
-    $statusnota = $this->objStatus->all();
-    $formapgt = $this->objPagamento->all();
+    $nota = NotaModel::find($id_notas);
+    $statusnota = StatusModel::all();
+    $formapgt = FormaPgtModel::all();
 
     if (!empty($nota)) {
-        return view('nota.edit', compact('nota', 'statusnota', 'formapgt'));
+        return view('nota.edit', compact('nota','statusnota','formapgt'));
     } else {
         return redirect()->route('nota-index');
     }
 }
 
 
-    public function update(NotaRequest $request, $id_notas)
+    public function update(Request $request, $id_notas)
     {
-        $this->objNota->where(['id_notas'=>$id_notas])->update([
-            'nome_cliente'=>$request->nome_cliente,
-            'tipo_servico'=>$request->tipo_servico,
-            'data_nota'=>$request->data_nota,
-            'preco_nota'=>$request->preco_nota,
-            'id_status'=>$request->id_status,
-            'id_pagamento'=>$request->id_pagamento,
-        ]);
-        dd($request->all());
-        return redirect()->route('nota-index');
+        $nota = NotaModel::find($id_notas);
+  
+        $nota->nome_cliente = $request->nome_cliente;
+        $nota->tipo_servico = $request->tipo_servico;
+        $nota->data_nota = $request->data_nota;
         
+        $preco_nota = str_replace(',', '.', $request->preco_nota); //Altera virgula para ponto
+        $nota->preco_nota = $preco_nota;
+
+        if ($request->has('id_status')) {
+            $nota->id_status = $request->id_status;
+        }
+
+        if ($request->has('id_pagamento')) {
+            $nota->id_pagamento = $request->id_pagamento;
+        }
+
+        $nota->save();
+        return redirect()->route('nota-index');
     }
+
     public function destroy($id_notas)
     {
         //dd($id_notas);

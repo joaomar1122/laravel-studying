@@ -9,7 +9,14 @@ class NotaModel extends Model
 {
     protected $primaryKey = 'id_notas';
     protected $table = "tb_notas";
-    protected $fillable = ['nome_cliente', 'tipo_servico', 'data_nota', 'preco_nota', 'id_status', 'id_pagamento'];
+    protected $fillable = [
+        'nome_cliente',
+        'tipo_servico',
+        'data_nota',
+        'preco_nota',
+        'id_status', 
+        'id_pagamento'
+    ];
 
 
     public function relStatus()
